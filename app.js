@@ -54,6 +54,20 @@ app.get('/courses', async (req, res) => {
     }
 });
 
+// Route handler for POST request to '/courses'
+app.post('/courses/addCourse', async (req, res) => {
+    try {
+        // Create a new course object from the request body
+        const newCourse = new Course(req.body);
+        // Save the new course to the database
+        const savedCourse = await newCourse.save();
+        res.json(savedCourse);
+    } catch (error) {
+        console.error('Error creating course:', error);
+        res.status(400).json({ error: error.message }); // Bad request due to validation failure
+    }
+});
+
 // Route handler for GET request to '/courses/sorted'
 app.get('/courses/sorted', async (req, res) => {
     try {
